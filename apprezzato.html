@@ -22,7 +22,8 @@
     .slider {
       display: flex;
       width: max-content;
-      animation: scroll 40s linear infinite;
+      animation: scroll linear infinite;
+      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
     }
 
     .wrapper {
@@ -37,7 +38,7 @@
       box-sizing: border-box;
       background: #fff;
       border-radius: 5px;
-      font-size: 18px; /* aumentato di 2 pt */
+      font-size: 18px;
       line-height: 1.5;
     }
 
@@ -102,9 +103,19 @@
     <p>Professionalità e umanità</p>
     <p><em>— Gerardi Luca</em></p>
   </div>
-
+ <!-- Doppio per effetto loop continuo -->
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
+      const slider = document.querySelector(".slider");
+      if (slider) {
+        slider.style.setProperty('--slide-count', count);
+      }
+    });
+  </script>
 </body>
 </html>
