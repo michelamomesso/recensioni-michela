@@ -1,22 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Recensioni</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
 
-<style>
-.marquee {
-  display: flex;
-  overflow: hidden;
-  white-space: nowrap;
-  animation: scorrimento 80s linear infinite;
-  font-size: 16pt;
-  color: #007179;
-  gap: 4rem;
-}
-@keyframes scorrimento {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-100%); }
-}
-</style>
-<div class="marquee">
-<div><span>Sei nel posto giusto!</span> – <i>Sì, in forma anonima</i></div>
-<div><span>Lei cerca di non provocare dolore. </span> – <i>Sì, con il mio nome e cognome puntato. Ad esempio: Michela M.</i></div>
-<div><span>Per chi è indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo è darti gli strumenti per stare meglio in autonomia.</span> – <i>Sì, con il mio nome e cognome puntato. Ad esempio: Michela M.</i></div>
-<div><span>Potrei assolutamente consigliarti </span> – <i>Sì, con il mio nome e cognome puntato. Ad esempio: Michela M.</i></div>
-</div>
+    .container {
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      padding: 1em 0;
+    }
+
+    .slider {
+      display: flex;
+      width: max-content;
+      animation: scroll 30s linear infinite;
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    .item {
+      flex: 0 0 auto;
+      min-width: 300px;
+      margin-right: 2em;
+      padding: 1em;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
+      font-size: 18px; /* aumentato di 2 pt */
+      line-height: 1.5;
+    }
+
+    .item p {
+      margin: 0 0 0.5em 0;
+      font-weight: normal;
+    }
+
+    .item em {
+      color: #007179;
+      font-style: italic;
+    }
+
+    @keyframes scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="slider">
+      <div class="wrapper">
+        
+        <div class="item">
+          <p>Sei nel posto giusto!</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Lei cerca di non provocare dolore. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Per chi ? indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo ? darti gli strumenti per stare meglio in autonomia.</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Potrei assolutamente consigliarti </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        
+        <div class="item">
+          <p>Sei nel posto giusto!</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Lei cerca di non provocare dolore. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Per chi ? indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo ? darti gli strumenti per stare meglio in autonomia.</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Potrei assolutamente consigliarti </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</body>
+</html>
