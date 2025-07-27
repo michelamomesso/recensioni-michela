@@ -25,24 +25,24 @@
       animation: scroll 30s linear infinite;
     }
 
-    .slider::after {
-      content: '';
-      display: inline-block;
-      width: 2em;
-    }
-
     .wrapper {
       display: flex;
     }
 
     .item {
       flex: 0 0 auto;
+      min-width: 300px;
       margin-right: 2em;
-      color: #000;
+      padding: 1em;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
+      font-size: 18px; /* aumentato di 2 pt */
+      line-height: 1.5;
     }
 
     .item p {
-      margin: 0 0 0.3em 0;
+      margin: 0 0 0.5em 0;
       font-weight: normal;
     }
 
@@ -61,8 +61,48 @@
   <div class="container">
     <div class="slider">
       <div class="wrapper">
-        <div class="item"><p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. </p><p><em>Anonimo</em></p></div><div class="item"><p>Mi ? passato il dolore alla spalla. </p><p><em>R. M. </em></p></div><div class="item"><p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p><p><em>Thea</em></p></div><div class="item"><p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente </p><p><em>Gerardi Luca</em></p></div>
-        <div class="item"><p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. </p><p><em>Anonimo</em></p></div><div class="item"><p>Mi ? passato il dolore alla spalla. </p><p><em>R. M. </em></p></div><div class="item"><p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p><p><em>Thea</em></p></div><div class="item"><p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente </p><p><em>Gerardi Luca</em></p></div>
+        
+        <div class="item">
+          <p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Mi ? passato il dolore alla spalla. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        
+        <div class="item">
+          <p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Mi ? passato il dolore alla spalla. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
       </div>
     </div>
   </div>
