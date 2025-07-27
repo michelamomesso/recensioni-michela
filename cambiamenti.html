@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
+  <title>Recensioni</title>
   <style>
     body {
       margin: 0;
@@ -11,61 +11,60 @@
       font-family: sans-serif;
       overflow: hidden;
     }
-    .marquee {
-      display: flex;
-      animation: scroll 60s linear infinite;
-      width: fit-content;
-    }
-    .wrapper {
-      width: 100vw;
-      overflow: hidden;
+
+    .container {
       white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      padding: 1em 0;
+    }
+
+    .slider {
       display: flex;
-      align-items: center;
+      width: max-content;
+      animation: scroll 30s linear infinite;
     }
-    .recensione {
+
+    .slider::after {
+      content: '';
+      display: inline-block;
+      width: 2em;
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    .item {
       flex: 0 0 auto;
-      min-width: 300px;
-      max-width: 500px;
-      margin: 1rem;
-      padding: 1rem;
-      color: #007179;
+      margin-right: 2em;
+      color: #000;
     }
+
+    .item p {
+      margin: 0 0 0.3em 0;
+      font-weight: normal;
+    }
+
+    .item em {
+      color: #007179;
+      font-style: italic;
+    }
+
     @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="marquee">
-      
-    <div class="recensione">
-      <p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo.</p>
-      <p><em>? S?, in forma anonima</em></p>
-    </div>
-  
-
-    <div class="recensione">
-      <p>Mi ? passato il dolore alla spalla.</p>
-      <p><em>? S?, con il mio nome e cognome puntato. Ad esempio: Michela M.</em></p>
-    </div>
-  
-
-    <div class="recensione">
-      <p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p>
-      <p><em>? S?, con il mio nome e cognome puntato. Ad esempio: Michela M.</em></p>
-    </div>
-  
-
-    <div class="recensione">
-      <p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente</p>
-      <p><em>? S?, con il mio nome e cognome puntato. Ad esempio: Michela M.</em></p>
-    </div>
-  
+  <div class="container">
+    <div class="slider">
+      <div class="wrapper">
+        <div class="item"><p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. </p><p><em>Anonimo</em></p></div><div class="item"><p>Mi ? passato il dolore alla spalla. </p><p><em>R. M. </em></p></div><div class="item"><p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p><p><em>Thea</em></p></div><div class="item"><p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente </p><p><em>Gerardi Luca</em></p></div>
+        <div class="item"><p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. </p><p><em>Anonimo</em></p></div><div class="item"><p>Mi ? passato il dolore alla spalla. </p><p><em>R. M. </em></p></div><div class="item"><p>Sono pi? consapevole in generale delle rigidit? del mio corpo, ad esempio non contraggo pi? le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che ? conscia che pu? solo che migliorare.</p><p><em>Thea</em></p></div><div class="item"><p>? migliorato tutto adesso il pap? ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente </p><p><em>Gerardi Luca</em></p></div>
+      </div>
     </div>
   </div>
 </body>
 </html>
-  
