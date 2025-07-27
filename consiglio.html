@@ -25,24 +25,24 @@
       animation: scroll 30s linear infinite;
     }
 
-    .slider::after {
-      content: '';
-      display: inline-block;
-      width: 2em;
-    }
-
     .wrapper {
       display: flex;
     }
 
     .item {
       flex: 0 0 auto;
+      min-width: 300px;
       margin-right: 2em;
-      color: #000;
+      padding: 1em;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
+      font-size: 18px; /* aumentato di 2 pt */
+      line-height: 1.5;
     }
 
     .item p {
-      margin: 0 0 0.3em 0;
+      margin: 0 0 0.5em 0;
       font-weight: normal;
     }
 
@@ -61,8 +61,48 @@
   <div class="container">
     <div class="slider">
       <div class="wrapper">
-        <div class="item"><p>Sei nel posto giusto!</p><p><em>Anonimo</em></p></div><div class="item"><p>Lei cerca di non provocare dolore. </p><p><em>R. M. </em></p></div><div class="item"><p>Per chi ? indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo ? darti gli strumenti per stare meglio in autonomia.</p><p><em>Thea</em></p></div><div class="item"><p>Potrei assolutamente consigliarti </p><p><em>Gerardi Luca</em></p></div>
-        <div class="item"><p>Sei nel posto giusto!</p><p><em>Anonimo</em></p></div><div class="item"><p>Lei cerca di non provocare dolore. </p><p><em>R. M. </em></p></div><div class="item"><p>Per chi ? indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo ? darti gli strumenti per stare meglio in autonomia.</p><p><em>Thea</em></p></div><div class="item"><p>Potrei assolutamente consigliarti </p><p><em>Gerardi Luca</em></p></div>
+        
+        <div class="item">
+          <p>Sei nel posto giusto!</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Lei cerca di non provocare dolore. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Per chi ? indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo ? darti gli strumenti per stare meglio in autonomia.</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Potrei assolutamente consigliarti </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        
+        <div class="item">
+          <p>Sei nel posto giusto!</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Lei cerca di non provocare dolore. </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Per chi ? indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo ? darti gli strumenti per stare meglio in autonomia.</p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Potrei assolutamente consigliarti </p>
+          <p><em>? Anonimo</em></p>
+        </div>
+      
       </div>
     </div>
   </div>
