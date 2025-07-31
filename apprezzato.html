@@ -42,7 +42,7 @@
       font-weight: normal;
     }
     .item em {
-      color: #db7812; /* Colore richiesto */
+      color: #db7812;
       font-style: italic;
     }
   </style>
@@ -103,11 +103,9 @@
         prev.classList.remove('active');
         next.classList.add('active');
 
-        // Pianifica prossimo cambio
         setTimeout(showNext, DISPLAY_MS + FADE_MS);
       }
 
-      // Avvio ciclo dopo il primo intervallo
       setTimeout(showNext, DISPLAY_MS + FADE_MS);
     })();
   </script>
