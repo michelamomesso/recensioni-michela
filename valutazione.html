@@ -36,14 +36,13 @@
     }
     .item.active {
       opacity: 1;
-      position: relative;
     }
     .item p {
       margin: 0 0 0.5em 0;
       font-weight: normal;
     }
     .item em {
-      color: #007179;
+      color: #db7812; /* Colore richiesto */
       font-style: italic;
     }
   </style>
@@ -51,33 +50,33 @@
 <body>
   <div class="carousel">
     
-  <div class="item">
-    <p>Completo e trasformativo</p>
-    <p><em>— Thea</em></p>
-  </div>
-
-  <div class="item">
-    <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
-    <p><em>— Gerardi Luca</em></p>
-  </div>
-
-  <div class="item">
-    <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
-    <p><em>— Livia O.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Professionista molto competente, capace e positiva.</p>
-    <p><em>— Pamela C.</em></p>
-  </div>
-
+        <div class="item">
+          <p>Completo e trasformativo</p>
+          <p><em>— Thea</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
+          <p><em>— Gerardi Luca</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
+          <p><em>— Livia O.</em></p>
+        </div>
+      
+        <div class="item">
+          <p>Professionista molto competente, capace e positiva.</p>
+          <p><em>— Pamela C.</em></p>
+        </div>
+      
   </div>
 
   <script>
     (function() {
       const DISPLAY_MS = 7 * 1000;
       const FADE_MS = 1 * 1000;
-      const items = Array.from(document.querySelectorAll('.item'));
+      const items = Array.from(document.querySelectorAll('.item')).filter(it => it.textContent.trim());
       if (items.length === 0) return;
 
       let current = 0;
@@ -90,11 +89,16 @@
         const prev = items[current];
         current = (current + 1) % items.length;
         const next = items[current];
+
         prev.classList.remove('active');
         next.classList.add('active');
+
+        // Pianifica prossimo cambio
+        setTimeout(showNext, DISPLAY_MS + FADE_MS);
       }
 
-      setInterval(showNext, DISPLAY_MS + FADE_MS);
+      // Avvio ciclo dopo il primo intervallo
+      setTimeout(showNext, DISPLAY_MS + FADE_MS);
     })();
   </script>
 </body>
