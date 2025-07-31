@@ -4,65 +4,53 @@
   <meta charset="UTF-8">
   <title>Recensioni</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
       background: white;
       font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .carousel {
+      position: relative;
+      width: 320px;
+      max-width: 100%;
       overflow: hidden;
     }
-
-    .container {
-      white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
-      padding: 1em 0;
-    }
-
-    .slider {
-      display: flex;
-      width: max-content;
-      animation: scroll linear infinite;
-      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
-    }
-
-    .wrapper {
-      display: flex;
-    }
-
     .item {
-      flex: 0 0 auto;
-      min-width: 300px;
-      margin-right: 2em;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
       padding: 1em;
-      box-sizing: border-box;
       background: #fff;
       border-radius: 5px;
       font-size: 18px;
-      line-height: 1.5;
+      line-height: 1.4;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
-
+    .item.active {
+      opacity: 1;
+      position: relative;
+    }
     .item p {
       margin: 0 0 0.5em 0;
       font-weight: normal;
     }
-
     .item em {
       color: #007179;
       font-style: italic;
     }
-
-    @keyframes scroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="slider">
-      <div class="wrapper">
-        
+  <div class="carousel">
+    
   <div class="item">
     <p>Mi sembra che abbia capito quello di cui avevo bisogno. Mi sono sentita considerata. Risponde alle domande in modo comprensibile!</p>
     <p><em>— Anonimo</em></p>
@@ -93,49 +81,31 @@
     <p><em>— Pamela C.</em></p>
   </div>
 
-        
-  <div class="item">
-    <p>Mi sembra che abbia capito quello di cui avevo bisogno. Mi sono sentita considerata. Risponde alle domande in modo comprensibile!</p>
-    <p><em>— Anonimo</em></p>
-  </div>
-
-  <div class="item">
-    <p>Non hai fretta e spieghi le cose che fai. Sei gentile.</p>
-    <p><em>— R. M.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Apprezzo di Michela il dialogo aperto ma sempre attento e professionale. Il modo di occuparsi del gruppo senza mai perdere di vista il singolo. Il suo modo giocoso e simpatico con cui spiega le cose più complesse, rendendole alla portata di tutti. Il clima non è mai giudicante ma di confronto e apertura.</p>
-    <p><em>— Thea</em></p>
-  </div>
-
-  <div class="item">
-    <p>Professionalità e umanità</p>
-    <p><em>— Gerardi Luca</em></p>
-  </div>
-
-  <div class="item">
-    <p>La simpatia, l'attenzione e la risposta immediata alle mie problematiche - ha azzeccato le cause di tutti i fastidi e mi ha dato subito delle soluzioni.</p>
-    <p><em>— Livia O.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Per me sicuramente il clima positivo, rassicurante e accogliente. La fiducia anche per aver capito la professionalità della persona.</p>
-    <p><em>— Pamela C.</em></p>
-  </div>
- <!-- Doppio per effetto loop continuo -->
-      </div>
-    </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
-      const slider = document.querySelector(".slider");
-      if (slider) {
-        slider.style.setProperty('--slide-count', count);
+    (function() {
+      const DISPLAY_MS = 7 * 1000;
+      const FADE_MS = 1 * 1000;
+      const items = Array.from(document.querySelectorAll('.item'));
+      if (items.length === 0) return;
+
+      let current = 0;
+      items.forEach((it, i) => {
+        if (i === 0) it.classList.add('active');
+        else it.style.opacity = 0;
+      });
+
+      function showNext() {
+        const prev = items[current];
+        current = (current + 1) % items.length;
+        const next = items[current];
+        prev.classList.remove('active');
+        next.classList.add('active');
       }
-    });
+
+      setInterval(showNext, DISPLAY_MS + FADE_MS);
+    })();
   </script>
 </body>
 </html>
