@@ -13,33 +13,32 @@
     }
 
     .container {
-      white-space: nowrap;
-      overflow: hidden;
+      position: relative;
       width: 100%;
-      padding: 1em 0;
-    }
-
-    .slider {
-      display: flex;
-      width: max-content;
-      animation: scroll linear infinite;
-      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
-    }
-
-    .wrapper {
-      display: flex;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2em 1em;
+      box-sizing: border-box;
+      min-height: 200px;
     }
 
     .item {
-      flex: 0 0 auto;
-      min-width: 300px;
-      margin-right: 2em;
-      padding: 1em;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
       box-sizing: border-box;
+      padding: 1em;
       background: #fff;
       border-radius: 5px;
       font-size: 18px;
       line-height: 1.5;
+    }
+
+    .item.visible {
+      opacity: 1;
     }
 
     .item p {
@@ -52,17 +51,32 @@
       font-style: italic;
     }
 
-    @keyframes scroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    /* Optional: un piccolo indicatore sotto per mostrare quale recensione è attiva */
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      transition: background 0.3s;
+    }
+
+    .dot.active {
+      background: #007179;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="slider">
-      <div class="wrapper">
-        
+    
   <div class="item">
     <p>Sei nel posto giusto!</p>
     <p><em>— Anonimo</em></p>
@@ -93,48 +107,35 @@
     <p><em>— Pamela C.</em></p>
   </div>
 
-        
-  <div class="item">
-    <p>Sei nel posto giusto!</p>
-    <p><em>— Anonimo</em></p>
-  </div>
-
-  <div class="item">
-    <p>Lei cerca di non provocare dolore.</p>
-    <p><em>— R. M.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Per chi è indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo è darti gli strumenti per stare meglio in autonomia.</p>
-    <p><em>— Thea</em></p>
-  </div>
-
-  <div class="item">
-    <p>Potrei assolutamente consigliarti</p>
-    <p><em>— Gerardi Luca</em></p>
-  </div>
-
-  <div class="item">
-    <p>Michela è accogliente e molto preparata per dare un ottimo supporto al percorso post-parto. Consiglierò vivamente alle neomamme.</p>
-    <p><em>— Livia O.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Di andare in fiducia che poi starà meglio.</p>
-    <p><em>— Pamela C.</em></p>
-  </div>
- <!-- Doppio per effetto loop continuo -->
-      </div>
+    <div class="dots" aria-label="Indicatore recensioni">
+      <div class="dot" data-index="0"></div><div class="dot" data-index="1"></div><div class="dot" data-index="2"></div><div class="dot" data-index="3"></div><div class="dot" data-index="4"></div><div class="dot" data-index="5"></div>
     </div>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
-      const slider = document.querySelector(".slider");
-      if (slider) {
-        slider.style.setProperty('--slide-count', count);
-      }
+      const items = Array.from(document.querySelectorAll(".item"));
+      const dots = Array.from(document.querySelectorAll(".dot"));
+      if (items.length === 0) return;
+
+      let current = 0;
+      const showItem = (index) => {
+        items.forEach((it, i) => {
+          it.classList.toggle("visible", i === index);
+        });
+        dots.forEach((d, i) => {
+          d.classList.toggle("active", i === index);
+        });
+      };
+
+      // Inizializza
+      showItem(0);
+
+      // Ciclo ogni 6 secondi con dissolvenza (1s è gestito via CSS transition)
+      setInterval(() => {
+        current = (current + 1) % items.length;
+        showItem(current);
+      }, 6000);
     });
   </script>
 </body>
