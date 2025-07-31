@@ -4,100 +4,118 @@
   <meta charset="UTF-8">
   <title>Recensioni</title>
   <style>
-    * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
       background: white;
       font-family: sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .carousel {
-      position: relative;
-      width: 320px;
-      max-width: 100%;
       overflow: hidden;
     }
-    .item {
-      position: absolute;
-      top: 0;
-      left: 0;
+
+    .container {
+      white-space: nowrap;
+      overflow: hidden;
       width: 100%;
+      padding: 1em 0;
+    }
+
+    .slider {
+      display: flex;
+      width: max-content;
+      animation: scroll linear infinite;
+      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    .item {
+      flex: 0 0 auto;
+      min-width: 300px;
+      margin-right: 2em;
       padding: 1em;
+      box-sizing: border-box;
       background: #fff;
       border-radius: 5px;
       font-size: 18px;
-      line-height: 1.4;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
+      line-height: 1.5;
     }
-    .item.active {
-      opacity: 1;
-    }
+
     .item p {
       margin: 0 0 0.5em 0;
       font-weight: normal;
     }
+
     .item em {
-      color: #db7812;
+      color: #007179;
       font-style: italic;
+    }
+
+    @keyframes scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
   </style>
 </head>
 <body>
-  <div class="carousel">
-    
-        <div class="item">
-          <p>Completo e trasformativo</p>
-          <p><em>— Thea</em></p>
-        </div>
-      
-        <div class="item">
-          <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
-          <p><em>— Gerardi Luca</em></p>
-        </div>
-      
-        <div class="item">
-          <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
-          <p><em>— Livia O.</em></p>
-        </div>
-      
-        <div class="item">
-          <p>Professionista molto competente, capace e positiva.</p>
-          <p><em>— Pamela C.</em></p>
-        </div>
-      
+  <div class="container">
+    <div class="slider">
+      <div class="wrapper">
+        
+  <div class="item">
+    <p>Completo e trasformativo</p>
+    <p><em>— Thea</em></p>
+  </div>
+
+  <div class="item">
+    <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
+    <p><em>— Gerardi Luca</em></p>
+  </div>
+
+  <div class="item">
+    <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
+    <p><em>— Livia O.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Professionista molto competente, capace e positiva.</p>
+    <p><em>— Pamela C.</em></p>
+  </div>
+
+        
+  <div class="item">
+    <p>Completo e trasformativo</p>
+    <p><em>— Thea</em></p>
+  </div>
+
+  <div class="item">
+    <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
+    <p><em>— Gerardi Luca</em></p>
+  </div>
+
+  <div class="item">
+    <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
+    <p><em>— Livia O.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Professionista molto competente, capace e positiva.</p>
+    <p><em>— Pamela C.</em></p>
+  </div>
+ <!-- Doppio per effetto loop continuo -->
+      </div>
+    </div>
   </div>
 
   <script>
-    (function() {
-      const DISPLAY_MS = 7 * 1000;
-      const FADE_MS = 1 * 1000;
-      const items = Array.from(document.querySelectorAll('.item')).filter(it => it.textContent.trim());
-      if (items.length === 0) return;
-
-      let current = 0;
-      items.forEach((it, i) => {
-        if (i === 0) it.classList.add('active');
-        else it.style.opacity = 0;
-      });
-
-      function showNext() {
-        const prev = items[current];
-        current = (current + 1) % items.length;
-        const next = items[current];
-
-        prev.classList.remove('active');
-        next.classList.add('active');
-
-        setTimeout(showNext, DISPLAY_MS + FADE_MS);
+    document.addEventListener("DOMContentLoaded", function() {
+      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
+      const slider = document.querySelector(".slider");
+      if (slider) {
+        slider.style.setProperty('--slide-count', count);
       }
-
-      setTimeout(showNext, DISPLAY_MS + FADE_MS);
-    })();
+    });
   </script>
 </body>
 </html>
