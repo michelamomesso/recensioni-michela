@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Recensioni</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- per responsive base -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       margin: 0;
@@ -13,14 +13,23 @@
       overflow: hidden;
     }
 
-    .container {
+    .outer-container {
       position: relative;
       width: 100%;
       max-width: 800px;
       margin: 0 auto;
-      padding: 2em 1em;
+      padding: 2em 1em; /* spazio esterno in modo che freccette restino fuori dal box interno */
       box-sizing: border-box;
+    }
+
+    .inner-wrapper {
+      position: relative;
+      padding: 2em 3em; /* riquadro interno spostato dentro rispetto alle freccette */
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
       min-height: 220px;
+      overflow: hidden;
     }
 
     .item {
@@ -32,8 +41,6 @@
       transition: opacity 1s ease-in-out;
       box-sizing: border-box;
       padding: 1em;
-      background: #fff;
-      border-radius: 5px;
       font-size: 18px;
       line-height: 1.5;
     }
@@ -48,12 +55,10 @@
     }
 
     .item em {
-      /* nome/cognome in colore richiesto */
       color: #db7812;
       font-style: italic;
     }
 
-    /* Puntini indicatore */
     .dots {
       position: absolute;
       bottom: 10px;
@@ -76,18 +81,20 @@
       background: #007179;
     }
 
-    /* Freccette di navigazione */
     .nav-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.95);
       border: none;
       padding: 0.5em 1em;
       font-size: 1.2em;
       cursor: pointer;
       border-radius: 4px;
       user-select: none;
+      color: #db7812;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .nav-arrow:focus {
@@ -95,17 +102,19 @@
     }
 
     .prev {
-      left: 10px;
+      left: -5px; /* fuori leggermente rispetto al contenuto */
     }
 
     .next {
-      right: 10px;
+      right: -5px;
     }
 
-    /* Media query base per mobile (responsive tweaks) */
     @media (max-width: 600px) {
-      .container {
+      .outer-container {
         padding: 1.5em 0.5em;
+      }
+      .inner-wrapper {
+        padding: 1.5em 2em;
       }
       .item {
         font-size: 16px;
@@ -118,8 +127,9 @@
   </style>
 </head>
 <body>
-  <div class="container" aria-label="Slider recensioni">
-    
+  <div class="outer-container" aria-label="Slider recensioni">
+    <div class="inner-wrapper" id="recensioni">
+      
   <div class="item">
     <p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo.</p>
     <p><em>— Anonimo</em></p>
@@ -151,32 +161,33 @@
   </div>
 
 
-    <!-- Freccette per navigazione manuale -->
-    <button class="nav-arrow prev" aria-label="Recensione precedente" aria-controls="recensioni" type="button">&larr;</button>
-    <button class="nav-arrow next" aria-label="Recensione successiva" aria-controls="recensioni" type="button">&rarr;</button>
-
-    <!-- Indicatore puntini -->
-    <div class="dots" aria-label="Indicatore recensioni">
-      <div class="dot" data-index="0" role="button" aria-label="Vai alla recensione 1" tabindex="0"></div><div class="dot" data-index="1" role="button" aria-label="Vai alla recensione 2" tabindex="0"></div><div class="dot" data-index="2" role="button" aria-label="Vai alla recensione 3" tabindex="0"></div><div class="dot" data-index="3" role="button" aria-label="Vai alla recensione 4" tabindex="0"></div><div class="dot" data-index="4" role="button" aria-label="Vai alla recensione 5" tabindex="0"></div><div class="dot" data-index="5" role="button" aria-label="Vai alla recensione 6" tabindex="0"></div>
+      <!-- Indicatore puntini -->
+      <div class="dots" aria-label="Indicatore recensioni">
+        <div class="dot" data-index="0" role="button" aria-label="Vai alla recensione 1" tabindex="0"></div><div class="dot" data-index="1" role="button" aria-label="Vai alla recensione 2" tabindex="0"></div><div class="dot" data-index="2" role="button" aria-label="Vai alla recensione 3" tabindex="0"></div><div class="dot" data-index="3" role="button" aria-label="Vai alla recensione 4" tabindex="0"></div><div class="dot" data-index="4" role="button" aria-label="Vai alla recensione 5" tabindex="0"></div><div class="dot" data-index="5" role="button" aria-label="Vai alla recensione 6" tabindex="0"></div>
+      </div>
     </div>
+
+    <!-- Freccette per navigazione manuale (posizionate esternamente al box interno) -->
+    <button class="nav-arrow prev" aria-label="Recensione precedente" type="button">&larr;</button>
+    <button class="nav-arrow next" aria-label="Recensione successiva" type="button">&rarr;</button>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Seleziono tutti gli elementi recensione e i puntini
+      // Seleziono elementi recensione, puntini e freccette
       const items = Array.from(document.querySelectorAll(".item"));
       const dots = Array.from(document.querySelectorAll(".dot"));
       const prevBtn = document.querySelector(".prev");
       const nextBtn = document.querySelector(".next");
+      const container = document.querySelector(".outer-container");
 
-      if (items.length === 0) return; // nulla da fare se non ci sono recensioni
+      if (items.length === 0) return;
 
       let current = 0;
       let intervalId = null;
-      const DISPLAY_TIME = 6000; // 6 secondi
-      const TRANSITION_BUFFER = 1000; // incluso nella transizione CSS
+      const DISPLAY_TIME = 6000;
 
-      // Funzione che mostra la recensione di indice dato, aggiorna puntini
+      // Mostra la recensione corrente e aggiorna indicatori
       const showItem = (index) => {
         items.forEach((it, i) => {
           it.classList.toggle("visible", i === index);
@@ -187,16 +198,16 @@
         current = index;
       };
 
-      // Avvia il loop automatico
+      // Avvia ciclo automatico
       const startCycle = () => {
-        stopCycle(); // previene doppio intervallo
+        stopCycle();
         intervalId = setInterval(() => {
           const nextIndex = (current + 1) % items.length;
           showItem(nextIndex);
         }, DISPLAY_TIME);
       };
 
-      // Ferma il loop automatico
+      // Ferma ciclo automatico
       const stopCycle = () => {
         if (intervalId) {
           clearInterval(intervalId);
@@ -204,13 +215,11 @@
         }
       };
 
-      // Inizializzazione: mostra la prima recensione
+      // Inizializza con prima recensione e parte il ciclo
       showItem(0);
       startCycle();
 
-      // --- Event listeners per pausa su hover ---
-      // Se l'utente passa sopra il contenitore, stoppo il ciclo (pausa)
-      const container = document.querySelector(".container");
+      // Pausa se l'utente passa sopra
       container.addEventListener("mouseenter", () => {
         stopCycle();
       });
@@ -218,29 +227,27 @@
         startCycle();
       });
 
-      // --- Navigazione manuale con freccette ---
+      // Freccette
       prevBtn.addEventListener("click", () => {
         const prevIndex = (current - 1 + items.length) % items.length;
         showItem(prevIndex);
-        startCycle(); // resetta il timer
+        startCycle();
       });
-
       nextBtn.addEventListener("click", () => {
         const nextIndex = (current + 1) % items.length;
         showItem(nextIndex);
         startCycle();
       });
 
-      // --- Navigazione tramite puntini ---
+      // Puntini interattivi
       dots.forEach(dot => {
         const idx = parseInt(dot.getAttribute("data-index"), 10);
         dot.addEventListener("click", () => {
           showItem(idx);
           startCycle();
         });
-        // accessibilità: permetto attivazione con Enter/Space
         dot.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " " ) {
+          if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             showItem(idx);
             startCycle();
@@ -248,15 +255,13 @@
         });
       });
 
-      // --- Tastiera globale (optional, migliora accessibilità) ---
+      // Tastiera globale: navigazione con frecce
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight") {
-          // prossima recensione
           const nextIndex = (current + 1) % items.length;
           showItem(nextIndex);
           startCycle();
         } else if (e.key === "ArrowLeft") {
-          // precedente
           const prevIndex = (current - 1 + items.length) % items.length;
           showItem(prevIndex);
           startCycle();
