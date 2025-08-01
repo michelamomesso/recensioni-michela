@@ -67,28 +67,33 @@
       padding: 1em;
       font-size: 18px;
       line-height: 1.5;
-      max-height: 220px; /* mostra versione troncata */
-      overflow: hidden;
+      overflow: visible;
       display: flex;
       flex-direction: column;
       gap: 0.5em;
-    }
-
-    .item.expanded {
-      max-height: none; /* si espande completamente */
     }
 
     .item.visible {
       opacity: 1;
     }
 
-    .item p {
-      margin: 0 0 0.5em 0;
-    }
-
     .item em {
       color: #db7812;
       font-style: italic;
+    }
+
+    /* clamp a 5 righe per il paragrafo principale */
+    .content p:first-child {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      overflow: hidden;
+    }
+
+    /* quando espanso rimuove il clamp */
+    .item.expanded .content p:first-child {
+      -webkit-line-clamp: unset;
+      display: block;
     }
 
     .read-more {
@@ -208,7 +213,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Seleziono elementi recensione, puntini e freccette
+      // Seleziono recensioni, indicatori e controlli
       const items = Array.from(document.querySelectorAll(".item"));
       const dots = Array.from(document.querySelectorAll(".dot"));
       const prevBtn = document.querySelector(".prev");
@@ -221,7 +226,7 @@
       let intervalId = null;
       const DISPLAY_TIME = 6000;
 
-      // Mostra la recensione corrente e aggiorna i puntini
+      // Mostra elemento corrente e aggiorna puntini
       const showItem = (index) => {
         items.forEach((it, i) => {
           it.classList.toggle("visible", i === index);
@@ -232,7 +237,7 @@
         current = index;
       };
 
-      // Avvia ciclo automatico (rotazione)
+      // Avvia rotazione automatica
       const startCycle = () => {
         stopCycle();
         intervalId = setInterval(() => {
@@ -241,7 +246,7 @@
         }, DISPLAY_TIME);
       };
 
-      // Ferma ciclo automatico
+      // Ferma rotazione
       const stopCycle = () => {
         if (intervalId) {
           clearInterval(intervalId);
@@ -249,11 +254,11 @@
         }
       };
 
-      // Inizializzo con la prima recensione e faccio partire il ciclo
+      // Inizializza
       showItem(0);
       startCycle();
 
-      // Pausa al passaggio del mouse sul wrapper esterno
+      // Pausa al passaggio del mouse
       container.addEventListener("mouseenter", () => {
         stopCycle();
       });
@@ -261,7 +266,7 @@
         startCycle();
       });
 
-      // Navigazione con freccette
+      // Freccette
       prevBtn.addEventListener("click", () => {
         const prevIndex = (current - 1 + items.length) % items.length;
         showItem(prevIndex);
@@ -273,7 +278,7 @@
         startCycle();
       });
 
-      // Navigazione tramite puntini (click + tastiera)
+      // Puntini (click + accessibilità tastiera)
       dots.forEach(dot => {
         const idx = parseInt(dot.getAttribute("data-index"), 10);
         dot.addEventListener("click", () => {
@@ -289,7 +294,7 @@
         });
       });
 
-      // Navigazione da tastiera globale (frecce)
+      // Navigazione globale da tastiera
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight") {
           const nextIndex = (current + 1) % items.length;
@@ -302,7 +307,7 @@
         }
       });
 
-      // Comportamento "Leggi tutto / Mostra meno"
+      // Leggi tutto / Mostra meno
       items.forEach(item => {
         const btn = item.querySelector('.read-more');
         if (!btn) return;
