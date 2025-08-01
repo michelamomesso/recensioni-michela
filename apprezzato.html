@@ -13,23 +13,47 @@
       overflow: hidden;
     }
 
-    .outer-container {
+    .wrapper-outer {
       position: relative;
       width: 100%;
       max-width: 800px;
       margin: 0 auto;
-      padding: 2em 1em; /* spazio esterno in modo che freccette restino fuori dal box interno */
+      padding: 2em 1em;
       box-sizing: border-box;
+      display: flex;
+      align-items: stretch;
+      gap: 0.5em;
     }
 
-    .inner-wrapper {
+    .nav-arrow {
+      background: transparent;
+      border: none;
+      padding: 0.5em 1em;
+      font-size: 1.4em;
+      cursor: pointer;
+      color: #db7812;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-arrow:focus {
+      outline: 2px solid #007179;
+    }
+
+    .inner-container {
       position: relative;
-      padding: 2em 3em; /* riquadro interno spostato dentro rispetto alle freccette */
+      flex: 1;
+      padding: 2em 2.5em;
       box-sizing: border-box;
       background: #fff;
       border-radius: 5px;
-      min-height: 220px;
+      min-height: 260px;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .item {
@@ -43,6 +67,15 @@
       padding: 1em;
       font-size: 18px;
       line-height: 1.5;
+      max-height: 220px; /* mostra versione troncata */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+    }
+
+    .item.expanded {
+      max-height: none; /* si espande completamente */
     }
 
     .item.visible {
@@ -51,12 +84,23 @@
 
     .item p {
       margin: 0 0 0.5em 0;
-      font-weight: normal;
     }
 
     .item em {
       color: #db7812;
       font-style: italic;
+    }
+
+    .read-more {
+      margin-top: auto;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-size: 0.9em;
+      color: #007179;
+      text-decoration: underline;
+      align-self: flex-start;
     }
 
     .dots {
@@ -81,54 +125,29 @@
       background: #007179;
     }
 
-    .nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.95);
-      border: none;
-      padding: 0.5em 1em;
-      font-size: 1.2em;
-      cursor: pointer;
-      border-radius: 4px;
-      user-select: none;
-      color: #db7812;
-      font-weight: bold;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .nav-arrow:focus {
-      outline: 2px solid #007179;
-    }
-
-    .prev {
-      left: -5px; /* fuori leggermente rispetto al contenuto */
-    }
-
-    .next {
-      right: -5px;
-    }
-
     @media (max-width: 600px) {
-      .outer-container {
+      .wrapper-outer {
+        flex-direction: column;
         padding: 1.5em 0.5em;
       }
-      .inner-wrapper {
+      .inner-container {
         padding: 1.5em 2em;
       }
       .item {
         font-size: 16px;
       }
       .nav-arrow {
-        font-size: 1em;
+        font-size: 1.2em;
         padding: 0.4em 0.8em;
       }
     }
   </style>
 </head>
 <body>
-  <div class="outer-container" aria-label="Slider recensioni">
-    <div class="inner-wrapper" id="recensioni">
+  <div class="wrapper-outer" aria-label="Slider recensioni">
+    <button class="nav-arrow prev" aria-label="Recensione precedente" type="button">&larr;</button>
+
+    <div class="inner-container" id="recensioni">
       
   <div class="item">
     <p>Mi sembra che abbia capito quello di cui avevo bisogno. Mi sono sentita considerata. Risponde alle domande in modo comprensibile!</p>
@@ -161,14 +180,11 @@
   </div>
 
 
-      <!-- Indicatore puntini -->
       <div class="dots" aria-label="Indicatore recensioni">
         <div class="dot" data-index="0" role="button" aria-label="Vai alla recensione 1" tabindex="0"></div><div class="dot" data-index="1" role="button" aria-label="Vai alla recensione 2" tabindex="0"></div><div class="dot" data-index="2" role="button" aria-label="Vai alla recensione 3" tabindex="0"></div><div class="dot" data-index="3" role="button" aria-label="Vai alla recensione 4" tabindex="0"></div><div class="dot" data-index="4" role="button" aria-label="Vai alla recensione 5" tabindex="0"></div><div class="dot" data-index="5" role="button" aria-label="Vai alla recensione 6" tabindex="0"></div>
       </div>
     </div>
 
-    <!-- Freccette per navigazione manuale (posizionate esternamente al box interno) -->
-    <button class="nav-arrow prev" aria-label="Recensione precedente" type="button">&larr;</button>
     <button class="nav-arrow next" aria-label="Recensione successiva" type="button">&rarr;</button>
   </div>
 
@@ -179,7 +195,7 @@
       const dots = Array.from(document.querySelectorAll(".dot"));
       const prevBtn = document.querySelector(".prev");
       const nextBtn = document.querySelector(".next");
-      const container = document.querySelector(".outer-container");
+      const container = document.querySelector(".wrapper-outer");
 
       if (items.length === 0) return;
 
@@ -187,7 +203,7 @@
       let intervalId = null;
       const DISPLAY_TIME = 6000;
 
-      // Mostra la recensione corrente e aggiorna indicatori
+      // Mostra la recensione corrente e aggiorna i puntini
       const showItem = (index) => {
         items.forEach((it, i) => {
           it.classList.toggle("visible", i === index);
@@ -198,7 +214,7 @@
         current = index;
       };
 
-      // Avvia ciclo automatico
+      // Avvia ciclo automatico (rotazione)
       const startCycle = () => {
         stopCycle();
         intervalId = setInterval(() => {
@@ -215,11 +231,11 @@
         }
       };
 
-      // Inizializza con prima recensione e parte il ciclo
+      // Inizializzo con la prima recensione e faccio partire il ciclo
       showItem(0);
       startCycle();
 
-      // Pausa se l'utente passa sopra
+      // Pausa al passaggio del mouse sul wrapper esterno
       container.addEventListener("mouseenter", () => {
         stopCycle();
       });
@@ -227,7 +243,7 @@
         startCycle();
       });
 
-      // Freccette
+      // Navigazione con freccette
       prevBtn.addEventListener("click", () => {
         const prevIndex = (current - 1 + items.length) % items.length;
         showItem(prevIndex);
@@ -239,7 +255,7 @@
         startCycle();
       });
 
-      // Puntini interattivi
+      // Navigazione tramite puntini (click + tastiera)
       dots.forEach(dot => {
         const idx = parseInt(dot.getAttribute("data-index"), 10);
         dot.addEventListener("click", () => {
@@ -255,7 +271,7 @@
         });
       });
 
-      // Tastiera globale: navigazione con frecce
+      // Navigazione da tastiera globale (frecce)
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight") {
           const nextIndex = (current + 1) % items.length;
@@ -266,6 +282,16 @@
           showItem(prevIndex);
           startCycle();
         }
+      });
+
+      // Comportamento "Leggi tutto / Mostra meno"
+      items.forEach(item => {
+        const btn = item.querySelector('.read-more');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const expanded = item.classList.toggle('expanded');
+          btn.textContent = expanded ? 'Mostra meno' : 'Leggi tutto';
+        });
       });
     });
   </script>
