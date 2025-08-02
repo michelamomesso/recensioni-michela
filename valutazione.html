@@ -57,24 +57,22 @@
     }
 
     .item {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      position: relative;
       opacity: 0;
       transition: opacity 1s ease-in-out;
       box-sizing: border-box;
       padding: 1em;
       font-size: 18px;
       line-height: 1.5;
-      overflow: auto;
-      display: flex;
+      overflow: auto; /* scroll se lungo */
+      display: none; /* nascosto finché non è attivo */
       flex-direction: column;
       gap: 0.5em;
       max-height: 100%;
     }
 
     .item.visible {
+      display: flex;
       opacity: 1;
     }
 
@@ -184,7 +182,11 @@
       // Mostra l'item corrente e aggiorna i puntini
       const showItem = (index) => {
         items.forEach((it, i) => {
-          it.classList.toggle("visible", i === index);
+          if (i === index) {
+            it.classList.add("visible");
+          } else {
+            it.classList.remove("visible");
+          }
         });
         dots.forEach((d, i) => {
           d.classList.toggle("active", i === index);
