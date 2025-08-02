@@ -67,10 +67,11 @@
       padding: 1em;
       font-size: 18px;
       line-height: 1.5;
-      overflow: visible;
+      overflow: auto;
       display: flex;
       flex-direction: column;
       gap: 0.5em;
+      max-height: 100%;
     }
 
     .item.visible {
@@ -80,32 +81,6 @@
     .item em {
       color: #db7812;
       font-style: italic;
-    }
-
-    /* clamp a 5 righe per il paragrafo principale */
-    .content p:first-child {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 5;
-      overflow: hidden;
-    }
-
-    /* quando espanso rimuove il clamp */
-    .item.expanded .content p:first-child {
-      -webkit-line-clamp: unset;
-      display: block;
-    }
-
-    .read-more {
-      margin-top: auto;
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      font-size: 0.9em;
-      color: #007179;
-      text-decoration: underline;
-      align-self: flex-start;
     }
 
     .dots {
@@ -159,49 +134,43 @@
       <p>Sei nel posto giusto!</p>
       <p><em>— Anonimo</em></p>
     </div>
-    <button class="read-more" aria-label="Leggi tutto">Leggi tutto</button>
   </div>
-
+  
   <div class="item">
     <div class="content">
       <p>Lei cerca di non provocare dolore.</p>
       <p><em>— R. M.</em></p>
     </div>
-    <button class="read-more" aria-label="Leggi tutto">Leggi tutto</button>
   </div>
-
+  
   <div class="item">
     <div class="content">
       <p>Per chi è indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo è darti gli strumenti per stare meglio in autonomia.</p>
       <p><em>— Thea</em></p>
     </div>
-    <button class="read-more" aria-label="Leggi tutto">Leggi tutto</button>
   </div>
-
+  
   <div class="item">
     <div class="content">
       <p>Potrei assolutamente consigliarti</p>
       <p><em>— Gerardi Luca</em></p>
     </div>
-    <button class="read-more" aria-label="Leggi tutto">Leggi tutto</button>
   </div>
-
+  
   <div class="item">
     <div class="content">
       <p>Michela è accogliente e molto preparata per dare un ottimo supporto al percorso post-parto. Consiglierò vivamente alle neomamme.</p>
       <p><em>— Livia O.</em></p>
     </div>
-    <button class="read-more" aria-label="Leggi tutto">Leggi tutto</button>
   </div>
-
+  
   <div class="item">
     <div class="content">
       <p>Di andare in fiducia che poi starà meglio.</p>
       <p><em>— Pamela C.</em></p>
     </div>
-    <button class="read-more" aria-label="Leggi tutto">Leggi tutto</button>
   </div>
-
+  
 
       <div class="dots" aria-label="Indicatore recensioni">
         <div class="dot" data-index="0" role="button" aria-label="Vai alla recensione 1" tabindex="0"></div><div class="dot" data-index="1" role="button" aria-label="Vai alla recensione 2" tabindex="0"></div><div class="dot" data-index="2" role="button" aria-label="Vai alla recensione 3" tabindex="0"></div><div class="dot" data-index="3" role="button" aria-label="Vai alla recensione 4" tabindex="0"></div><div class="dot" data-index="4" role="button" aria-label="Vai alla recensione 5" tabindex="0"></div><div class="dot" data-index="5" role="button" aria-label="Vai alla recensione 6" tabindex="0"></div>
@@ -213,7 +182,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Seleziono recensioni, indicatori e controlli
+      // Seleziono recensioni, puntini e controlli
       const items = Array.from(document.querySelectorAll(".item"));
       const dots = Array.from(document.querySelectorAll(".dot"));
       const prevBtn = document.querySelector(".prev");
@@ -226,7 +195,7 @@
       let intervalId = null;
       const DISPLAY_TIME = 6000;
 
-      // Mostra elemento corrente e aggiorna puntini
+      // Mostra l'item corrente e aggiorna i puntini
       const showItem = (index) => {
         items.forEach((it, i) => {
           it.classList.toggle("visible", i === index);
@@ -254,7 +223,7 @@
         }
       };
 
-      // Inizializza
+      // Inizializzo e avvio
       showItem(0);
       startCycle();
 
@@ -266,7 +235,7 @@
         startCycle();
       });
 
-      // Freccette
+      // Navigazione freccette
       prevBtn.addEventListener("click", () => {
         const prevIndex = (current - 1 + items.length) % items.length;
         showItem(prevIndex);
@@ -278,7 +247,7 @@
         startCycle();
       });
 
-      // Puntini (click + accessibilità tastiera)
+      // Puntini interattivi e accessibili
       dots.forEach(dot => {
         const idx = parseInt(dot.getAttribute("data-index"), 10);
         dot.addEventListener("click", () => {
@@ -294,7 +263,7 @@
         });
       });
 
-      // Navigazione globale da tastiera
+      // Navigazione da tastiera globale
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight") {
           const nextIndex = (current + 1) % items.length;
@@ -305,16 +274,6 @@
           showItem(prevIndex);
           startCycle();
         }
-      });
-
-      // Leggi tutto / Mostra meno
-      items.forEach(item => {
-        const btn = item.querySelector('.read-more');
-        if (!btn) return;
-        btn.addEventListener('click', () => {
-          const expanded = item.classList.toggle('expanded');
-          btn.textContent = expanded ? 'Mostra meno' : 'Leggi tutto';
-        });
       });
     });
   </script>
