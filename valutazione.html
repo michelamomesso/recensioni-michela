@@ -13,7 +13,7 @@
       overflow: hidden;
     }
 
-    .wrapper-outer {
+    .outer {
       position: relative;
       width: 100%;
       max-width: 800px;
@@ -21,25 +21,7 @@
       padding: 2em 1em;
       box-sizing: border-box;
       display: flex;
-      align-items: stretch;
-      gap: 0.5em;
-    }
-
-    .nav-arrow {
-      background: transparent;
-      border: none;
-      padding: 0.5em 1em;
-      font-size: 1.4em;
-      cursor: pointer;
-      color: #db7812;
-      user-select: none;
-      display: flex;
-      align-items: center;
       justify-content: center;
-    }
-
-    .nav-arrow:focus {
-      outline: 2px solid #007179;
     }
 
     .inner-container {
@@ -64,8 +46,8 @@
       padding: 1em;
       font-size: 18px;
       line-height: 1.5;
-      overflow: auto; /* scroll se lungo */
-      display: none; /* nascosto finché non è attivo */
+      overflow: auto;
+      display: none;
       flex-direction: column;
       gap: 0.5em;
       max-height: 100%;
@@ -104,27 +86,17 @@
     }
 
     @media (max-width: 600px) {
-      .wrapper-outer {
-        flex-direction: column;
+      .outer {
         padding: 1.5em 0.5em;
-      }
-      .inner-container {
-        padding: 1.5em 2em;
       }
       .item {
         font-size: 16px;
-      }
-      .nav-arrow {
-        font-size: 1.2em;
-        padding: 0.4em 0.8em;
       }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper-outer" aria-label="Slider recensioni">
-    <button class="nav-arrow prev" aria-label="Recensione precedente" type="button">&larr;</button>
-
+  <div class="outer" aria-label="Slider recensioni">
     <div class="inner-container" id="recensioni">
       
   <div class="item">
@@ -160,18 +132,13 @@
         <div class="dot" data-index="0" role="button" aria-label="Vai alla recensione 1" tabindex="0"></div><div class="dot" data-index="1" role="button" aria-label="Vai alla recensione 2" tabindex="0"></div><div class="dot" data-index="2" role="button" aria-label="Vai alla recensione 3" tabindex="0"></div><div class="dot" data-index="3" role="button" aria-label="Vai alla recensione 4" tabindex="0"></div>
       </div>
     </div>
-
-    <button class="nav-arrow next" aria-label="Recensione successiva" type="button">&rarr;</button>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Seleziono recensioni, puntini e controlli
       const items = Array.from(document.querySelectorAll(".item"));
       const dots = Array.from(document.querySelectorAll(".dot"));
-      const prevBtn = document.querySelector(".prev");
-      const nextBtn = document.querySelector(".next");
-      const container = document.querySelector(".wrapper-outer");
+      const container = document.querySelector(".outer");
 
       if (items.length === 0) return;
 
@@ -179,7 +146,7 @@
       let intervalId = null;
       const DISPLAY_TIME = 6000;
 
-      // Mostra l'item corrente e aggiorna i puntini
+      // Mostra recensione corrente e aggiorna puntini
       const showItem = (index) => {
         items.forEach((it, i) => {
           if (i === index) {
@@ -194,7 +161,6 @@
         current = index;
       };
 
-      // Avvia rotazione automatica
       const startCycle = () => {
         stopCycle();
         intervalId = setInterval(() => {
@@ -203,7 +169,6 @@
         }, DISPLAY_TIME);
       };
 
-      // Ferma rotazione
       const stopCycle = () => {
         if (intervalId) {
           clearInterval(intervalId);
@@ -211,11 +176,11 @@
         }
       };
 
-      // Inizializzo e avvio
+      // Inizializza e avvia
       showItem(0);
       startCycle();
 
-      // Pausa al passaggio del mouse
+      // Pausa su hover (desktop)
       container.addEventListener("mouseenter", () => {
         stopCycle();
       });
@@ -223,19 +188,15 @@
         startCycle();
       });
 
-      // Navigazione freccette
-      prevBtn.addEventListener("click", () => {
-        const prevIndex = (current - 1 + items.length) % items.length;
-        showItem(prevIndex);
-        startCycle();
+      // Touch: pausa durante il tocco e riprende dopo
+      container.addEventListener("touchstart", () => {
+        stopCycle();
       });
-      nextBtn.addEventListener("click", () => {
-        const nextIndex = (current + 1) % items.length;
-        showItem(nextIndex);
+      container.addEventListener("touchend", () => {
         startCycle();
       });
 
-      // Puntini interattivi e accessibili
+      // Puntini (click + tastiera)
       dots.forEach(dot => {
         const idx = parseInt(dot.getAttribute("data-index"), 10);
         dot.addEventListener("click", () => {
