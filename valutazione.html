@@ -1,20 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Recensioni</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       margin: 0;
       padding: 0;
       background: white;
       font-family: sans-serif;
-      overflow: hidden;
     }
 
     .outer {
-      position: relative;
       width: 100%;
       max-width: 800px;
       margin: 0 auto;
@@ -25,17 +23,16 @@
     }
 
     .inner-container {
-      position: relative;
       flex: 1;
       padding: 2em 2.5em;
       box-sizing: border-box;
       background: #fff;
       border-radius: 5px;
-      min-height: 260px;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
+      min-height: 200px;
     }
 
     .item {
@@ -46,11 +43,11 @@
       padding: 1em;
       font-size: 18px;
       line-height: 1.5;
-      overflow: auto;
       display: none;
       flex-direction: column;
       gap: 0.5em;
-      max-height: 100%;
+      width: 100%;
+      overflow-wrap: break-word;
     }
 
     .item.visible {
@@ -58,37 +55,21 @@
       opacity: 1;
     }
 
+    .item p {
+      margin: 0 0 0.5em 0;
+      font-weight: normal;
+    }
+
     .item em {
       color: #db7812;
       font-style: italic;
     }
 
-    .dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ccc;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .dot.active {
-      background: #007179;
-    }
-
-    @media (max-width: 600px) {
-      .outer {
-        padding: 1.5em 0.5em;
+    @media screen and (max-width: 600px) {
+      .inner-container {
+        padding: 1.5em 1em;
       }
+
       .item {
         font-size: 16px;
       }
@@ -96,142 +77,64 @@
   </style>
 </head>
 <body>
-  <div class="outer" aria-label="Slider recensioni">
-    <div class="inner-container" id="recensioni">
-      
-  <div class="item">
-    <div class="content">
-      <p>Completo e trasformativo</p>
-      <p><em>— Thea</em></p>
-    </div>
-  </div>
-  
-  <div class="item">
-    <div class="content">
-      <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
-      <p><em>— Gerardi Luca</em></p>
-    </div>
-  </div>
-  
-  <div class="item">
-    <div class="content">
-      <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
-      <p><em>— Livia O.</em></p>
-    </div>
-  </div>
-  
-  <div class="item">
-    <div class="content">
-      <p>Professionista molto competente, capace e positiva.</p>
-      <p><em>— Pamela C.</em></p>
-    </div>
-  </div>
-  
-  <div class="item">
-    <div class="content">
-      <p>Sono in gravidanza e Michela ha risolto in poco dei dolori che mi portavo da diverso tempo. <br>Molto professionale, empatica, ottima professionista oltre che ottima persona. <br>Sa ascoltare e consiglia esercizi da fare a casa che aiutano nella vita di tutti i giorni. <br>Consigliatissima!!!!</p>
-      <p><em>— Anonimo</em></p>
-    </div>
-  </div>
-  
-
-      <div class="dots" aria-label="Indicatore recensioni">
-        <div class="dot" data-index="0" role="button" aria-label="Vai alla recensione 1" tabindex="0"></div><div class="dot" data-index="1" role="button" aria-label="Vai alla recensione 2" tabindex="0"></div><div class="dot" data-index="2" role="button" aria-label="Vai alla recensione 3" tabindex="0"></div><div class="dot" data-index="3" role="button" aria-label="Vai alla recensione 4" tabindex="0"></div><div class="dot" data-index="4" role="button" aria-label="Vai alla recensione 5" tabindex="0"></div>
-      </div>
+  <div class="outer">
+    <div class="inner-container" id="review-container">
+      <p>Caricamento recensioni…</p>
     </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const items = Array.from(document.querySelectorAll(".item"));
-      const dots = Array.from(document.querySelectorAll(".dot"));
-      const container = document.querySelector(".outer");
+    // === CONFIGURAZIONE ===
+    const FILES = [
+      'valutazione.html',
+      'cambiamenti.html',
+      'apprezzato.html',
+      'consiglio.html'
+    ];
 
-      if (items.length === 0) return;
+    const BASE_URL = 'https://michelamomesso.github.io/recensioni-michela/';
+    const container = document.getElementById('review-container');
 
-      let current = 0;
-      let intervalId = null;
-      const DISPLAY_TIME = 6000;
+    // === Carica tutti i file HTML da GitHub ===
+    Promise.all(FILES.map(file =>
+      fetch(BASE_URL + file)
+        .then(response => {
+          if (!response.ok) throw new Error(`Errore nel file ${file}`);
+          return response.text();
+        })
+        .catch(() => '')
+    ))
+    .then(allHtml => {
+      // Unisci il contenuto di tutti i file
+      const joinedHtml = allHtml.join('');
+      container.innerHTML = joinedHtml;
 
-      // Mostra recensione corrente e aggiorna puntini
-      const showItem = (index) => {
-        items.forEach((it, i) => {
-          if (i === index) {
-            it.classList.add("visible");
-          } else {
-            it.classList.remove("visible");
-          }
+      const items = container.querySelectorAll('.item');
+      if (items.length === 0) {
+        container.innerHTML = '<p>Nessuna recensione disponibile al momento.</p>';
+        return;
+      }
+
+      let index = 0;
+
+      // Mostra una recensione alla volta con dissolvenza
+      function mostraRecensione(i) {
+        items.forEach((item, idx) => {
+          item.classList.toggle('visible', idx === i);
         });
-        dots.forEach((d, i) => {
-          d.classList.toggle("active", i === index);
-        });
-        current = index;
-      };
+      }
 
-      const startCycle = () => {
-        stopCycle();
-        intervalId = setInterval(() => {
-          const nextIndex = (current + 1) % items.length;
-          showItem(nextIndex);
-        }, DISPLAY_TIME);
-      };
+      mostraRecensione(index);
 
-      const stopCycle = () => {
-        if (intervalId) {
-          clearInterval(intervalId);
-          intervalId = null;
-        }
-      };
-
-      // Inizializza e avvia
-      showItem(0);
-      startCycle();
-
-      // Pausa su hover (desktop)
-      container.addEventListener("mouseenter", () => {
-        stopCycle();
-      });
-      container.addEventListener("mouseleave", () => {
-        startCycle();
-      });
-
-      // Touch: pausa durante il tocco e riprende dopo
-      container.addEventListener("touchstart", () => {
-        stopCycle();
-      });
-      container.addEventListener("touchend", () => {
-        startCycle();
-      });
-
-      // Puntini (click + tastiera)
-      dots.forEach(dot => {
-        const idx = parseInt(dot.getAttribute("data-index"), 10);
-        dot.addEventListener("click", () => {
-          showItem(idx);
-          startCycle();
-        });
-        dot.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            showItem(idx);
-            startCycle();
-          }
-        });
-      });
-
-      // Navigazione da tastiera globale
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") {
-          const nextIndex = (current + 1) % items.length;
-          showItem(nextIndex);
-          startCycle();
-        } else if (e.key === "ArrowLeft") {
-          const prevIndex = (current - 1 + items.length) % items.length;
-          showItem(prevIndex);
-          startCycle();
-        }
-      });
+      setInterval(() => {
+        index = (index + 1) % items.length;
+        mostraRecensione(index);
+      }, 6000);
+    })
+    .catch(error => {
+      container.innerHTML = `<p style="color: red;">Errore: ${error.message}</p>`;
     });
   </script>
 </body>
 </html>
+  
