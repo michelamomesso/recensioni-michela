@@ -1,29 +1,111 @@
-"<div>
-  <h2 style=""color:#007179; font-weight: bold;"">1. Come valuteresti il percorso fatto assieme?</h2>
-  <p>“Completo e trasformativo”<br><em>— Thea</em></p>
-<p>“Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,”<br><em>— Gerardi Luca</em></p>
 
-  <h2 style=""color:#007179; font-weight: bold;"">2. Cosa ti ha portato a iniziare un percorso con me?</h2>
-  <p>“Avevo dolori diffusi da artrite reumatoide e ho visto la locandina del percorso posturale. ”<br><em>— Anonimo</em></p>
-<p>“Consigliata da un’amica. ”<br><em>— R. M.</em></p>
-<p>“Cercavo un corso per sentirmi bene dopo la gravidanza e il parto. Per ricentrarmi e prendere più consapevolezza con ogni parte del mio corpo.”<br><em>— Thea</em></p>
-<p>“Mi è stata consigliata ”<br><em>— Gerardi Luca</em></p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recensioni</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: sans-serif;
+    }
 
-  <h2 style=""color:#007179; font-weight: bold;"">3. Cosa è cambiato nel tempo?</h2>
-  <p>“Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo. ”<br><em>— Anonimo</em></p>
-<p>“Mi è passato il dolore alla spalla. ”<br><em>— R. M.</em></p>
-<p>“Sono più consapevole in generale delle rigidità del mio corpo, ad esempio non contraggo più le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che è conscia che può solo che migliorare.”<br><em>— Thea</em></p>
-<p>“È migliorato tutto adesso il papà ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente ”<br><em>— Gerardi Luca</em></p>
+    .outer {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2em 1em;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+    }
 
-  <h2 style=""color:#007179; font-weight: bold;"">4. Cosa hai apprezzato particolarmente?</h2>
-  <p>“Mi sembra che abbia capito quello di cui avevo bisogno. Mi sono sentita considerata. Risponde alle domande in modo comprensibile! ”<br><em>— Anonimo</em></p>
-<p>“Non hai fretta e spieghi le cose che fai. Sei gentile. ”<br><em>— R. M.</em></p>
-<p>“Apprezzo di Michela il dialogo aperto ma sempre attento e professionale. Il modo di occuparsi del gruppo senza mai perdere di vista il singolo. Il suo modo giocoso e simpatico con cui spiega le cose più complesse, rendendole alla portata di tutti. Il clima non è mai giudicante ma di confronto e apertura.”<br><em>— Thea</em></p>
-<p>“Professionalità e umanità ”<br><em>— Gerardi Luca</em></p>
+    .inner-container {
+      flex: 1;
+      padding: 2em 2.5em;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 200px;
+    }
 
-  <h2 style=""color:#007179; font-weight: bold;"">5. Cosa diresti a chi sta cercando un percorso simile al tuo?</h2>
-  <p>“Sei nel posto giusto!”<br><em>— Anonimo</em></p>
-<p>“Lei cerca di non provocare dolore. ”<br><em>— R. M.</em></p>
-<p>“Per chi è indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo è darti gli strumenti per stare meglio in autonomia.”<br><em>— Thea</em></p>
-<p>“Potrei assolutamente consigliarti ”<br><em>— Gerardi Luca</em></p>
-</div>"
+    .item {
+      box-sizing: border-box;
+      padding: 1em;
+      font-size: 18px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      width: 100%;
+      margin-bottom: 2em;
+    }
+
+    .item p {
+      margin: 0 0 0.5em 0;
+      font-weight: normal;
+    }
+
+    .item em {
+      color: #db7812;
+      font-style: italic;
+    }
+
+    @media screen and (max-width: 600px) {
+      .inner-container {
+        padding: 1.5em 1em;
+      }
+
+      .item {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="outer">
+    <div class="inner-container" id="review-container">
+      <p>Caricamento recensioni…</p>
+    </div>
+  </div>
+
+  <script>
+    const FILES = [
+      'valutazione.html',
+      'cambiamenti.html',
+      'apprezzato.html',
+      'consiglio.html'
+    ];
+
+    const BASE_URL = 'https://michelamomesso.github.io/recensioni-michela/';
+    const container = document.getElementById('review-container');
+
+    Promise.all(FILES.map(file =>
+      fetch(BASE_URL + file)
+        .then(response => {
+          if (!response.ok) throw new Error('Errore nel file ' + file);
+          return response.text();
+        })
+        .catch(() => '')
+    ))
+    .then(allHtml => {
+      const joinedHtml = allHtml.join('');
+      if (joinedHtml.trim() === '') {
+        container.innerHTML = '<p>Nessuna recensione disponibile al momento.</p>';
+      } else {
+        container.innerHTML = joinedHtml;
+      }
+    })
+    .catch(error => {
+      container.innerHTML = '<p style="color:red;">Errore: ' + error.message + '</p>';
+    });
+  </script>
+</body>
+</html>
+  
