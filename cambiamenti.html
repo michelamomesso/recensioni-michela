@@ -1,1 +1,141 @@
-<p>Nessuna recensione disponibile al momento.</p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Recensioni</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      padding: 1em 0;
+    }
+
+    .slider {
+      display: flex;
+      width: max-content;
+      animation: scroll linear infinite;
+      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    .item {
+      flex: 0 0 auto;
+      min-width: 300px;
+      margin-right: 2em;
+      padding: 1em;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .item p {
+      margin: 0 0 0.5em 0;
+      font-weight: normal;
+    }
+
+    .item em {
+      color: #007179;
+      font-style: italic;
+    }
+
+    @keyframes scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="slider">
+      <div class="wrapper">
+        
+  <div class="item">
+    <p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo.</p>
+    <p><em>— Anonimo</em></p>
+  </div>
+
+  <div class="item">
+    <p>Mi è passato il dolore alla spalla.</p>
+    <p><em>— R. M.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Sono più consapevole in generale delle rigidità del mio corpo, ad esempio non contraggo più le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che è conscia che può solo che migliorare.</p>
+    <p><em>— Thea</em></p>
+  </div>
+
+  <div class="item">
+    <p>È migliorato tutto adesso il papà ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente</p>
+    <p><em>— Gerardi Luca</em></p>
+  </div>
+
+  <div class="item">
+    <p>Le fitte sono diventate meno frequenti, ora non si presentano quasi più e soltanto in maniera molto lieve. Sono fiduciosa che scompariranno del tutto continuando con gli esercizi. Addome rinforzato. Mi sento più stabile e leggera. Grazie di cuore!</p>
+    <p><em>— Livia O.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Conoscenze e consapevolezza maggiore del mio corpo, del suo funzionamento e maggiore autostima sul recupero.</p>
+    <p><em>— Pamela C.</em></p>
+  </div>
+
+        
+  <div class="item">
+    <p>Conosco meglio il mio corpo e ho meno dolori. Quando ho male so cosa fare per diminuirlo.</p>
+    <p><em>— Anonimo</em></p>
+  </div>
+
+  <div class="item">
+    <p>Mi è passato il dolore alla spalla.</p>
+    <p><em>— R. M.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Sono più consapevole in generale delle rigidità del mio corpo, ad esempio non contraggo più le spalle in automatico durante il giorno e se per caso lo faccio me ne accorgo e sono in grado di rilassarmi. Sento accettazione per quello che è conscia che può solo che migliorare.</p>
+    <p><em>— Thea</em></p>
+  </div>
+
+  <div class="item">
+    <p>È migliorato tutto adesso il papà ha ripreso a camminare con il carrellino ma almeno riesce a essere autosufficiente</p>
+    <p><em>— Gerardi Luca</em></p>
+  </div>
+
+  <div class="item">
+    <p>Le fitte sono diventate meno frequenti, ora non si presentano quasi più e soltanto in maniera molto lieve. Sono fiduciosa che scompariranno del tutto continuando con gli esercizi. Addome rinforzato. Mi sento più stabile e leggera. Grazie di cuore!</p>
+    <p><em>— Livia O.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Conoscenze e consapevolezza maggiore del mio corpo, del suo funzionamento e maggiore autostima sul recupero.</p>
+    <p><em>— Pamela C.</em></p>
+  </div>
+ <!-- Doppio per effetto loop continuo -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
+      const slider = document.querySelector(".slider");
+      if (slider) {
+        slider.style.setProperty('--slide-count', count);
+      }
+    });
+  </script>
+</body>
+</html>
