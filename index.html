@@ -1,111 +1,41 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>Recensioni</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: white;
-      font-family: sans-serif;
-    }
-
-    .outer {
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2em 1em;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-    }
-
-    .inner-container {
-      flex: 1;
-      padding: 2em 2.5em;
-      box-sizing: border-box;
-      background: #fff;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      min-height: 200px;
-    }
-
-    .item {
-      box-sizing: border-box;
-      padding: 1em;
-      font-size: 18px;
-      line-height: 1.5;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-      width: 100%;
-      margin-bottom: 2em;
-    }
-
-    .item p {
-      margin: 0 0 0.5em 0;
-      font-weight: normal;
-    }
-
-    .item em {
-      color: #db7812;
-      font-style: italic;
-    }
-
-    @media screen and (max-width: 600px) {
-      .inner-container {
-        padding: 1.5em 1em;
-      }
-
-      .item {
-        font-size: 16px;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Recensioni</title>
+<style>
+  body { margin:0; padding:0; font-family:sans-serif; background:white; }
+  .outer { width:100%; max-width:800px; margin:auto; padding:2em 1em; }
+  .inner-container { background:#fff; padding:2em; border-radius:5px; }
+  .item { padding:1em 0; border-bottom:1px solid #ddd; }
+  .item p { margin:0 0 0.5em 0; }
+  .item em { color:#db7812; }
+</style>
 </head>
 <body>
-  <div class="outer">
-    <div class="inner-container" id="review-container">
-      <p>Caricamento recensioni…</p>
-    </div>
+<div class="outer">
+  <div class="inner-container" id="review-container">
+    <p>Caricamento recensioni…</p>
   </div>
+</div>
+<script>
+const FILES = [
+  'valutazione.html',
+  'cambiamenti.html',
+  'apprezzato.html',
+  'consiglio.html'
+];
+const BASE_URL = 'https://michelamomesso.github.io/recensioni-michela/';
+const container = document.getElementById('review-container');
 
-  <script>
-    const FILES = [
-      'valutazione.html',
-      'cambiamenti.html',
-      'apprezzato.html',
-      'consiglio.html'
-    ];
-
-    const BASE_URL = 'https://michelamomesso.github.io/recensioni-michela/';
-    const container = document.getElementById('review-container');
-
-    Promise.all(FILES.map(file =>
-      fetch(BASE_URL + file)
-        .then(response => {
-          if (!response.ok) throw new Error('Errore nel file ' + file);
-          return response.text();
-        })
-        .catch(() => '')
-    ))
-    .then(allHtml => {
-      const joinedHtml = allHtml.join('');
-      if (joinedHtml.trim() === '') {
-        container.innerHTML = '<p>Nessuna recensione disponibile al momento.</p>';
-      } else {
-        container.innerHTML = joinedHtml;
-      }
-    })
-    .catch(error => {
-      container.innerHTML = '<p style="color:red;">Errore: ' + error.message + '</p>';
-    });
-  </script>
+Promise.all(FILES.map(f => fetch(BASE_URL + f).then(r => r.ok ? r.text() : '')))
+  .then(htmls => {
+    const joined = htmls.join('');
+    container.innerHTML = joined || '<p>Nessuna recensione disponibile.</p>';
+  })
+  .catch(() => {
+    container.innerHTML = '<p style="color:red">Errore nel caricamento recensioni.</p>';
+  });
+</script>
 </body>
 </html>
-  
