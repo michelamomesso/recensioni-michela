@@ -1,26 +1,141 @@
-<div id="recensioni">
-  <p>Consiglio assolutamente a chiunque soffra di dolori muscolari.<br><em class="nome">— Laura</em></p>
-  <p>Ne vale la pena, il corpo ringrazia.<br><em class="nome">— Anonimo</em></p>
-  <p>Ottima esperienza, la rifarei senza dubbio.<br><em class="nome">— P. R.</em></p>
-</div>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Recensioni</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
 
-<style>
-#recensioni { white-space: normal; overflow: hidden; }
-#recensioni p { display: none; margin: 0 0 .6rem; }
-#recensioni p.active { display: block; }
-#recensioni .nome { color: #db7812; font-style: italic; }
-</style>
+    .container {
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      padding: 1em 0;
+    }
 
-<script>
-(function(){
-  const recensioni = document.querySelectorAll('#recensioni p');
-  if(recensioni.length === 0) return;
-  let idx = 0;
-  recensioni[0].classList.add('active');
-  setInterval(() => {
-    recensioni[idx].classList.remove('active');
-    idx = (idx + 1) % recensioni.length;
-    recensioni[idx].classList.add('active');
-  }, 5000);
-})();
-</script>
+    .slider {
+      display: flex;
+      width: max-content;
+      animation: scroll linear infinite;
+      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    .item {
+      flex: 0 0 auto;
+      min-width: 300px;
+      margin-right: 2em;
+      padding: 1em;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 5px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .item p {
+      margin: 0 0 0.5em 0;
+      font-weight: normal;
+    }
+
+    .item em {
+      color: #007179;
+      font-style: italic;
+    }
+
+    @keyframes scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="slider">
+      <div class="wrapper">
+        
+  <div class="item">
+    <p>Sei nel posto giusto!</p>
+    <p><em>— Anonimo</em></p>
+  </div>
+
+  <div class="item">
+    <p>Lei cerca di non provocare dolore.</p>
+    <p><em>— R. M.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Per chi è indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo è darti gli strumenti per stare meglio in autonomia.</p>
+    <p><em>— Thea</em></p>
+  </div>
+
+  <div class="item">
+    <p>Potrei assolutamente consigliarti</p>
+    <p><em>— Gerardi Luca</em></p>
+  </div>
+
+  <div class="item">
+    <p>Michela è accogliente e molto preparata per dare un ottimo supporto al percorso post-parto. Consiglierò vivamente alle neomamme.</p>
+    <p><em>— Livia O.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Di andare in fiducia che poi starà meglio.</p>
+    <p><em>— Pamela C.</em></p>
+  </div>
+
+        
+  <div class="item">
+    <p>Sei nel posto giusto!</p>
+    <p><em>— Anonimo</em></p>
+  </div>
+
+  <div class="item">
+    <p>Lei cerca di non provocare dolore.</p>
+    <p><em>— R. M.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Per chi è indeciso di scegliere un percorso con Michela, direi di scegliere lei per la competenza che possiede non solo nelle conoscenze tecniche ma anche nella relazione con il paziente. Non desidera avere clientela affiliata, ma si capisce che il suo obiettivo è darti gli strumenti per stare meglio in autonomia.</p>
+    <p><em>— Thea</em></p>
+  </div>
+
+  <div class="item">
+    <p>Potrei assolutamente consigliarti</p>
+    <p><em>— Gerardi Luca</em></p>
+  </div>
+
+  <div class="item">
+    <p>Michela è accogliente e molto preparata per dare un ottimo supporto al percorso post-parto. Consiglierò vivamente alle neomamme.</p>
+    <p><em>— Livia O.</em></p>
+  </div>
+
+  <div class="item">
+    <p>Di andare in fiducia che poi starà meglio.</p>
+    <p><em>— Pamela C.</em></p>
+  </div>
+ <!-- Doppio per effetto loop continuo -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
+      const slider = document.querySelector(".slider");
+      if (slider) {
+        slider.style.setProperty('--slide-count', count);
+      }
+    });
+  </script>
+</body>
+</html>
