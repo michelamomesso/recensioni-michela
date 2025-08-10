@@ -1,26 +1,99 @@
-<div id="recensioni">
-  <p>Esperienza eccellente, la terapia ha fatto la differenza.<br><em class="nome">— S. F.</em></p>
-  <p>Molto professionale e attenta, 5 stelle!<br><em class="nome">— Marco</em></p>
-  <p>Competenza e umanità rare.<br><em class="nome">— Anonimo</em></p>
-</div>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Recensioni</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
 
-<style>
-#recensioni { white-space: normal; overflow: hidden; }
-#recensioni p { display: none; margin: 0 0 .6rem; }
-#recensioni p.active { display: block; }
-#recensioni .nome { color: #db7812; font-style: italic; }
-</style>
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 1em;
+      box-sizing: border-box;
+    }
 
-<script>
-(function(){
-  const recensioni = document.querySelectorAll('#recensioni p');
-  if(recensioni.length === 0) return;
-  let idx = 0;
-  recensioni[0].classList.add('active');
-  setInterval(() => {
-    recensioni[idx].classList.remove('active');
-    idx = (idx + 1) % recensioni.length;
-    recensioni[idx].classList.add('active');
-  }, 5000);
-})();
-</script>
+    .item {
+      display: none;
+      text-align: left;
+      background: #fff;
+      border-radius: 5px;
+      padding: 1em;
+      font-size: 18px;
+      line-height: 1.5;
+      box-sizing: border-box;
+    }
+
+    .item.active {
+      display: block;
+    }
+
+    .testo {
+      margin: 0 0 0.5em 0;
+      font-weight: normal;
+    }
+
+    .firma {
+      margin: 0;
+      color: #007179;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+        <div class="item">
+          <p class="testo">Completo e trasformativo</p>
+          <p class="firma"><em>— Thea</em></p>
+        </div>
+      
+        <div class="item">
+          <p class="testo">Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
+          <p class="firma"><em>— Gerardi Luca</em></p>
+        </div>
+      
+        <div class="item">
+          <p class="testo">Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
+          <p class="firma"><em>— Livia O.</em></p>
+        </div>
+      
+        <div class="item">
+          <p class="testo">Professionista molto competente, capace e positiva.</p>
+          <p class="firma"><em>— Pamela C.</em></p>
+        </div>
+      
+        <div class="item">
+          <p class="testo">Sono in gravidanza e Michela ha risolto in poco dei dolori che mi portavo da diverso tempo. <br>Molto professionale, empatica, ottima professionista oltre che ottima persona. <br>Sa ascoltare e consiglia esercizi da fare a casa che aiutano nella vita di tutti i giorni. <br>Consigliatissima!!!!</p>
+          <p class="firma"><em>— Anonimo</em></p>
+        </div>
+      
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const items = document.querySelectorAll(".item");
+      let index = 0;
+
+      if (items.length > 0) {
+        items[0].classList.add("active");
+
+        setInterval(() => {
+          items[index].classList.remove("active");
+          index = (index + 1) % items.length;
+          items[index].classList.add("active");
+        }, 5000); // cambio ogni 5 secondi
+      }
+    });
+  </script>
+</body>
+</html>
