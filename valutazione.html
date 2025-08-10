@@ -28,7 +28,6 @@
       background: #fff;
       border-radius: 5px;
       padding: 1em;
-      font-size: 18px;
       line-height: 1.5;
       box-sizing: border-box;
     }
@@ -37,15 +36,39 @@
       display: block;
     }
 
+    /* Testo recensione */
     .testo {
       margin: 0 0 0.5em 0;
       font-weight: normal;
+      font-size: clamp(1rem, 2.5vw, 1.3rem); /* adattivo */
     }
 
+    /* Firma */
     .firma {
       margin: 0;
-      color: #007179;
+      color: #db7812;
       font-style: italic;
+      font-size: clamp(0.9rem, 2vw, 1.1rem); /* adattivo */
+    }
+
+    /* iPad: leggermente più grande */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .testo {
+        font-size: 1.3rem;
+      }
+      .firma {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* iPhone piccoli: non troppo grande */
+    @media (max-width: 400px) {
+      .testo {
+        font-size: 1.1rem;
+      }
+      .firma {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
