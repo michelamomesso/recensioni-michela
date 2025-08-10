@@ -1,131 +1,26 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <title>Recensioni</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: white;
-      font-family: sans-serif;
-      overflow: hidden;
-    }
+<div id="recensioni">
+  <p>Esperienza eccellente, la terapia ha fatto la differenza.<br><em class="nome">— S. F.</em></p>
+  <p>Molto professionale e attenta, 5 stelle!<br><em class="nome">— Marco</em></p>
+  <p>Competenza e umanità rare.<br><em class="nome">— Anonimo</em></p>
+</div>
 
-    .container {
-      white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
-      padding: 1em 0;
-    }
+<style>
+#recensioni { white-space: normal; overflow: hidden; }
+#recensioni p { display: none; margin: 0 0 .6rem; }
+#recensioni p.active { display: block; }
+#recensioni .nome { color: #db7812; font-style: italic; }
+</style>
 
-    .slider {
-      display: flex;
-      width: max-content;
-      animation: scroll linear infinite;
-      animation-duration: calc(10s * var(--slide-count)); /* velocità costante */
-    }
-
-    .wrapper {
-      display: flex;
-    }
-
-    .item {
-      flex: 0 0 auto;
-      min-width: 300px;
-      margin-right: 2em;
-      padding: 1em;
-      box-sizing: border-box;
-      background: #fff;
-      border-radius: 5px;
-      font-size: 18px;
-      line-height: 1.5;
-    }
-
-    .item p {
-      margin: 0 0 0.5em 0;
-      font-weight: normal;
-    }
-
-    .item em {
-      color: #007179;
-      font-style: italic;
-    }
-
-    @keyframes scroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="slider">
-      <div class="wrapper">
-        
-  <div class="item">
-    <p>Completo e trasformativo</p>
-    <p><em>— Thea</em></p>
-  </div>
-
-  <div class="item">
-    <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
-    <p><em>— Gerardi Luca</em></p>
-  </div>
-
-  <div class="item">
-    <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
-    <p><em>— Livia O.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Professionista molto competente, capace e positiva.</p>
-    <p><em>— Pamela C.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Sono in gravidanza e Michela ha risolto in poco dei dolori che mi portavo da diverso tempo. <br>Molto professionale, empatica, ottima professionista oltre che ottima persona. <br>Sa ascoltare e consiglia esercizi da fare a casa che aiutano nella vita di tutti i giorni. <br>Consigliatissima!!!!</p>
-    <p><em>— Anonimo</em></p>
-  </div>
-
-        
-  <div class="item">
-    <p>Completo e trasformativo</p>
-    <p><em>— Thea</em></p>
-  </div>
-
-  <div class="item">
-    <p>Persona molto molto preparata,ha rimesso letteralmente in piedi mio papà di 84 anni,</p>
-    <p><em>— Gerardi Luca</em></p>
-  </div>
-
-  <div class="item">
-    <p>Michela è molto gentile e bravissima nel suo lavoro. Già dopo la prima seduta mi sentivo meglio, mi ha dato degli esercizi da fare a casa che hanno fatto effetto subito. Nel giro di poche settimane ho riattivato e riequilibrato i muscoli del core, acquisendo così stabilità e forza per affrontare la vita quotidiana con due bimbi piccoli.</p>
-    <p><em>— Livia O.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Professionista molto competente, capace e positiva.</p>
-    <p><em>— Pamela C.</em></p>
-  </div>
-
-  <div class="item">
-    <p>Sono in gravidanza e Michela ha risolto in poco dei dolori che mi portavo da diverso tempo. <br>Molto professionale, empatica, ottima professionista oltre che ottima persona. <br>Sa ascoltare e consiglia esercizi da fare a casa che aiutano nella vita di tutti i giorni. <br>Consigliatissima!!!!</p>
-    <p><em>— Anonimo</em></p>
-  </div>
- <!-- Doppio per effetto loop continuo -->
-      </div>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const count = document.querySelectorAll(".item").length / 2; // metà perché duplicato
-      const slider = document.querySelector(".slider");
-      if (slider) {
-        slider.style.setProperty('--slide-count', count);
-      }
-    });
-  </script>
-</body>
-</html>
+<script>
+(function(){
+  const recensioni = document.querySelectorAll('#recensioni p');
+  if(recensioni.length === 0) return;
+  let idx = 0;
+  recensioni[0].classList.add('active');
+  setInterval(() => {
+    recensioni[idx].classList.remove('active');
+    idx = (idx + 1) % recensioni.length;
+    recensioni[idx].classList.add('active');
+  }, 5000);
+})();
+</script>
