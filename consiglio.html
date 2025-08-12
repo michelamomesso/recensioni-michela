@@ -1,100 +1,77 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>Recensioni</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      background: white;
-      font-family: sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-.container {
-  width: 100%;
-  max-width: 800px;
-  padding: 1em;
-  box-sizing: border-box;
-  height: 200px; /* altezza predefinita */
-  overflow: hidden;
-  position: relative;
-}
-/* SOLO per schermi piccoli (smartphone) */
-@media (max-width: 600px) {
-  .container {
-    height: auto; /* il box si adatta al testo */
-    min-height: 150px;
+<meta charset="UTF-8">
+<title>Recensioni</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    font-family: sans-serif;
+    overflow: hidden;
   }
-}
-    .item {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      padding: 1em;
-      background: #fff;
-      border-radius: 5px;
-      box-sizing: border-box;
-      line-height: 1.5;
-      overflow: hidden;
-      max-height: 100%;
-    }
-    .item.active {
-      opacity: 1;
-      position: relative;
-    }
-    .testo {
-      margin: 0 0 0.5em 0;
-      font-weight: normal;
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      max-height: 140px; /* spazio per la firma */
-      overflow: hidden;
-      position: relative;
-    }
-    .testo.scroll {
-      animation-name: scrollText;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-      animation-duration: var(--scroll-duration);
-      animation-delay: 2s; /* lascia 2s prima di iniziare a scrollare */
-    }
-    .firma {
-      margin: 0;
-      color: #db7812;
-      font-style: italic;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-    }
-    @keyframes scrollText {
-      from {
-        transform: translateY(0);
-      }
-      to {
-        transform: translateY(calc(-1 * var(--scroll-amount)));
-      }
-    }
-    @media (min-width: 768px) and (max-width: 1024px) {
-      .testo {
-        font-size: 1.3rem;
-      }
-      .firma {
-        font-size: 1.1rem;
-      }
-    }
-    @media (max-width: 400px) {
-      .testo {
-        font-size: 1.1rem;
-      }
-      .firma {
-        font-size: 1rem;
-      }
-    }
-  </style>
+
+  .container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 260px; /* altezza fissa per mobile e tablet */
+    padding: 1em;
+    box-sizing: border-box;
+  }
+
+  .item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .item.active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .item p {
+    margin: 0 0 0.5em 0;
+    font-weight: normal;
+    font-size: clamp(1rem, 2vw, 1.2rem); /* si adatta */
+    line-height: 1.4;
+    max-height: 180px; /* spazio per il testo */
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* contenitore per il testo scorrevole */
+  .scrollable {
+    display: inline-block;
+    animation: scrollText 6s linear;
+  }
+
+  .item em {
+    color: #db7812;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  }
+
+  @keyframes scrollText {
+    0% { transform: translateY(0); }
+    10% { transform: translateY(0); }
+    90% { transform: translateY(calc(-100% + 180px)); }
+    100% { transform: translateY(calc(-100% + 180px)); }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    
+<div class="container">
+  
         <div class="item">
           <p class="testo">Sei nel posto giusto!</p>
           <p class="firma"><em>— Anonimo</em></p>
@@ -125,72 +102,34 @@
           <p class="firma"><em>— Pamela C.</em></p>
         </div>
       
-  </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const items = document.querySelectorAll(".item");
-      let index = 0;
-      const displayTime = 7000; // tempo fisso prima di switchare (7s)
-      const fadeDuration = 1000; // 1s fade
+</div>
 
-      function resetScroll(el) {
-        el.style.animation = 'none';
-        el.style.setProperty('--scroll-duration', '');
-        el.style.setProperty('--scroll-amount', '');
-        el.offsetHeight; // force reflow
-        el.style.animation = null;
-      }
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const items = document.querySelectorAll(".item");
+    let idx = 0;
+    items[0].classList.add("active");
 
-      function showItem(i) {
-        items.forEach((item, idx) => {
-          item.classList.remove("active");
-          const testo = item.querySelector(".testo");
-          if (testo) {
-            resetScroll(testo);
-            testo.classList.remove("scroll");
-          }
-          item.style.position = "absolute";
-          item.style.opacity = 0;
-        });
+    setInterval(() => {
+      const current = items[idx];
+      idx = (idx + 1) % items.length;
+      const next = items[idx];
 
-        const current = items[i];
-        current.classList.add("active");
-        current.style.position = "relative";
-        current.style.opacity = 1;
+      current.classList.remove("active");
+      next.classList.add("active");
 
-        const testo = current.querySelector(".testo");
-        if (!testo) return;
-
-        // Controllo altezza testo per scroll
-        if (testo.scrollHeight > testo.clientHeight) {
-          const scrollAmount = testo.scrollHeight - testo.clientHeight;
-          // durata di scroll: 50px al secondo
-          const duration = scrollAmount / 50 * 1000;
-
-          testo.style.setProperty('--scroll-amount', scrollAmount + 'px');
-          testo.style.setProperty('--scroll-duration', duration + 'ms');
-
-          // aggiungo classe che attiva animazione scroll
-          setTimeout(() => {
-            testo.classList.add("scroll");
-          }, 2000); // scroll inizia dopo 2s
-          // incremento tempo totale di visualizzazione con scroll
-          return displayTime + duration + 2000;
+      // controlla se il testo è lungo e aggiunge scroll
+      next.querySelectorAll("p").forEach(p => {
+        if (p.scrollHeight > 180) {
+          const span = document.createElement("span");
+          span.className = "scrollable";
+          span.innerHTML = p.innerHTML;
+          p.innerHTML = "";
+          p.appendChild(span);
         }
-        return displayTime;
-      }
-
-      let timeoutId;
-      function next() {
-        let duration = showItem(index);
-        index = (index + 1) % items.length;
-        timeoutId = setTimeout(next, duration);
-      }
-
-      if (items.length > 0) {
-        next();
-      }
-    });
-  </script>
+      });
+    }, 6000); // 6 secondi per recensione
+  });
+</script>
 </body>
 </html>
